@@ -120,10 +120,10 @@ export function AppContent() {
             </div>
           ) : (
             <div className="flex flex-row gap-2 p-2">
-              {antigravityAccount.accounts.map((user, index) => {
+              {antigravityAccount.accounts.map((user) => {
                 const model = availableModels.data[user.api_key]
-                const geminiQuota = model?.models["gemini-3-pro-high"].quotaInfo.remainingFraction || 0
-                const claudeQuota = model?.models["claude-sonnet-4-5"].quotaInfo.remainingFraction || 0
+                let geminiQuota = model?.models["gemini-3-pro-high"].quotaInfo.remainingFraction || -1
+                let claudeQuota = model?.models["claude-sonnet-4-5"].quotaInfo.remainingFraction || -1
 
                 return <AccountSessionListCard
                   geminiQuota={geminiQuota}

@@ -8,9 +8,9 @@ interface UserSessionCardProps {
   userAvatar: string;
   email: string;
   // 0-1
-  geminiQuota: number;
+  geminiQuota: number | -1;
   // 0-1
-  claudeQuota: number;
+  claudeQuota: number | -1;
   // current
   isCurrentUser: boolean;
   onSelect: () => void
@@ -54,20 +54,38 @@ export function AccountSessionListCard(props: UserSessionCardProps) {
       </header>
 
       {/* 进度条区域 */}
-      <div className="space-y-3">
-        <UsageItem
-          label="Gemini"
-          percentage={props.geminiQuota}
-          color="bg-blue-400"
-          trackColor="bg-blue-50"
-        />
-        <UsageItem
-          label="Claude"
-          percentage={props.claudeQuota}
-          color="bg-violet-400"
-          trackColor="bg-violet-50"
-        />
-      </div>
+      {
+        props.geminiQuota === -1
+          ? <div className="space-y-3">
+            <UsageItem
+              label="Gemini"
+              percentage={-1}
+              color="bg-blue-400"
+              trackColor="bg-blue-50"
+            />
+            <UsageItem
+              label="Claude"
+              percentage={-1}
+              color="bg-violet-400"
+              trackColor="bg-violet-50"
+            />
+          </div>
+
+          : <div className="space-y-3">
+            <UsageItem
+              label="Gemini"
+              percentage={props.geminiQuota}
+              color="bg-blue-400"
+              trackColor="bg-blue-50"
+            />
+            <UsageItem
+              label="Claude"
+              percentage={props.claudeQuota}
+              color="bg-violet-400"
+              trackColor="bg-violet-50"
+            />
+          </div>
+      }
 
       {/* 底部交互区域 */}
       <div className="mt-4 flex items-center justify-center relative">
@@ -105,6 +123,23 @@ function UsageItem({label, percentage, color, trackColor}: {
   color: string,
   trackColor: string
 }) {
+  if (percentage === -1) {
+    return <div className="group">
+      <div className="flex justify-between mb-2 text-sm">
+        <span className="text-slate-700 font-medium">{label}</span>
+        <span className="text-slate-400 font-mono tabular-nums">Unknown</span>
+      </div>
+      <div className={cn("h-2.5 w-full rounded-full overflow-hidden", trackColor)}>
+        <motion.div
+          className={cn("h-full rounded-full", color)}
+          initial={{width: 0}}
+          animate={{width: `${percentage}%`}}
+          transition={{type: "spring", stiffness: 40, damping: 12, delay: 0.2}}
+        />
+      </div>
+    </div>
+  }
+
   percentage = Math.round(percentage * 100);
 
   return (
