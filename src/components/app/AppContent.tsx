@@ -119,7 +119,7 @@ export function AppContent() {
               </p>
             </div>
           ) : (
-            <div className="flex flex-row gap-2 p-2">
+            <div className="flex flex-row gap-2 p-2 flex-wrap">
               {antigravityAccount.accounts.map((user) => {
                 const model = availableModels.data[user.api_key]
                 let geminiQuota = model?.models["gemini-3-pro-high"].quotaInfo.remainingFraction || -1
