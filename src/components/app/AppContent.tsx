@@ -3,7 +3,7 @@ import type {AntigravityAccountData} from "@/commands/types/account.types.ts";
 import BusinessUserDetail from "@/components/business/AccountDetailModal.tsx";
 import {useAntigravityAccount, useCurrentAntigravityAccount} from "@/modules/use-antigravity-account.ts";
 import {useAvailableModels} from "@/modules/use-available-models.ts";
-import {useTrayMenu} from "@/hooks/useTrayMenu.ts";
+import {useTrayMenu} from "@/hooks/use-tray-menu.ts";
 
 import BusinessConfirmDialog from "@/components/business/ConfirmDialog.tsx";
 import toast from 'react-hot-toast';

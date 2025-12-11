@@ -1,11 +1,11 @@
 /**
  * Antigravity 进程运行状态 Store
- * 全局单例，每 10 秒自动检测 Antigravity 是否在运行
+ * 全局单例，每 5 秒自动检测 Antigravity 是否在运行
  */
 
-import { create } from 'zustand';
-import { ProcessCommands } from '@/commands/ProcessCommands';
-import { logger } from '../utils/logger';
+import {create} from 'zustand';
+import {ProcessCommands} from '@/commands/ProcessCommands';
+import {logger} from '../utils/logger';
 
 // 状态接口
 interface AntigravityIsRunningState {
@@ -20,18 +20,18 @@ interface AntigravityIsRunningState {
 // 操作接口
 interface AntigravityIsRunningActions {
   /** 检查运行状态 */
-  checkStatus: () => Promise<void>;
+  check: () => Promise<void>;
   /** 启动自动检查 */
-  startAutoCheck: () => void;
+  start: () => void;
   /** 停止自动检查 */
-  stopAutoCheck: () => void;
+  stop: () => void;
 }
 
 // 全局定时器 ID
 let checkIntervalId: NodeJS.Timeout | null = null;
 
-// 检查间隔（10 秒）
-const CHECK_INTERVAL = 10000;
+// 检查间隔（5 秒）
+const CHECK_INTERVAL = 5000;
 
 /**
  * Antigravity 运行状态 Store
@@ -45,7 +45,7 @@ export const useAntigravityIsRunning = create<
   lastChecked: null,
 
   // 检查运行状态
-  checkStatus: async () => {
+  check: async () => {
     // 防止并发检查
     if (get().isChecking) {
       return;
@@ -76,18 +76,18 @@ export const useAntigravityIsRunning = create<
   },
 
   // 启动自动检查
-  startAutoCheck: () => {
+  start: () => {
     // 清除已存在的定时器
     if (checkIntervalId !== null) {
       clearInterval(checkIntervalId);
     }
 
     // 立即检查一次
-    get().checkStatus();
+    get().check();
 
     // 启动定时检查
     checkIntervalId = setInterval(() => {
-      get().checkStatus();
+      get().check();
     }, CHECK_INTERVAL);
 
     logger.info('已启动自动检查', {
@@ -98,7 +98,7 @@ export const useAntigravityIsRunning = create<
   },
 
   // 停止自动检查
-  stopAutoCheck: () => {
+  stop: () => {
     if (checkIntervalId !== null) {
       clearInterval(checkIntervalId);
       checkIntervalId = null;

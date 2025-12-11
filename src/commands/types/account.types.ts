@@ -57,12 +57,3 @@ interface Plan {
   upgrade_msg: string
   upgrade_url: string
 }
-
-/**
- * 账户认证信息（保留扩展字段）
- */
-export interface AntigravityAuthInfo {
-  email?: string;
-  db_path?: string;
-  [key: string]: unknown;
-}

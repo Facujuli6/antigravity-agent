@@ -4,16 +4,16 @@ import BusinessUpdateDialog from '../business/UpdateDialog.tsx';
 import BusinessConfirmDialog from '../business/ConfirmDialog.tsx';
 import BusinessActionButton from '../business/ActionButton.tsx';
 import ToolbarTitle from '../ui/toolbar-title.tsx';
-import {useUpdateChecker} from '../../hooks/useUpdateChecker.ts';
+import {useUpdateChecker} from '@/hooks/use-update-checker.ts';
 import {useAntigravityAccount} from '@/modules/use-antigravity-account.ts';
-import {logger} from '../../utils/logger.ts';
+import {logger} from '@/utils/logger.ts';
 import toast from 'react-hot-toast';
 import {useImportExportAccount} from "@/modules/use-import-export-accounts.ts";
-import {useAntigravityProcess} from "@/hooks/use-antigravity-process.ts";
 import {ImportPasswordDialog} from "@/components/ImportPasswordDialog.tsx";
 import ExportPasswordDialog from "@/components/ExportPasswordDialog.tsx";
 import BusinessSettingsDialog from "@/components/business/SettingsDialog.tsx";
 import {Modal} from 'antd';
+import {useSignInNewAntigravityAccount} from "@/hooks/use-sign-in-new-antigravity-account.ts";
 
 const {confirm} = Modal;
 
@@ -50,10 +50,10 @@ const AppToolbar = () => {
   const handleExportConfig = () => importExportAccount.exportConfig();
 
   // 进程管理
-  const {isProcessLoading, backupAndRestartAntigravity} = useAntigravityProcess();
+  const signInNewAntigravityAccount = useSignInNewAntigravityAccount();
 
   // 计算全局加载状态
-  const isAnyLoading = isProcessLoading || isImporting || isExporting;
+  const isAnyLoading = signInNewAntigravityAccount.processing || isImporting || isExporting;
 
   // 确认对话框状态（用于"登录新账户"操作）
   const [confirmDialog, setConfirmDialog] = useState<{
@@ -85,7 +85,7 @@ const AppToolbar = () => {
       </p>,
       onOk() {
         setConfirmDialog(prev => ({...prev, isOpen: false}));
-        backupAndRestartAntigravity();
+        signInNewAntigravityAccount.run();
       },
       onCancel() {
         setConfirmDialog(prev => ({...prev, isOpen: false}));
@@ -172,7 +172,7 @@ const AppToolbar = () => {
                 variant="default"
                 icon={<Plus className="h-4 w-4" />}
                 tooltip="关闭 Antigravity，备份当前用户，清除用户信息，并自动重新启动"
-                isLoading={isProcessLoading}
+                isLoading={signInNewAntigravityAccount.processing}
                 loadingText="处理中..."
                 isAnyLoading={isAnyLoading}
               >

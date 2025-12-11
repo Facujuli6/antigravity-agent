@@ -57,13 +57,18 @@ pub async fn get_antigravity_accounts(
                 let jetski_state = backup_data
                     .get("jetskiStateSync.agentManagerInitState")
                     .and_then(|v| v.as_str())
-                    .ok_or_else(|| format!("备份文件 {} 缺少 jetskiStateSync.agentManagerInitState", file_name))?;
+                    .ok_or_else(|| {
+                        format!(
+                            "备份文件 {} 缺少 jetskiStateSync.agentManagerInitState",
+                            file_name
+                        )
+                    })?;
 
                 let decoded = decode_jetski_state_proto(jetski_state)?;
 
                 let modified_time = fs::metadata(&path)
                     .and_then(|m| m.modified())
-                    .unwrap_or_else(|_| std::time::SystemTime::UNIX_EPOCH);
+                    .unwrap_or(std::time::SystemTime::UNIX_EPOCH);
 
                 accounts.push((modified_time, decoded));
 

@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {useDevToolsShortcut} from './hooks/useDevToolsShortcut';
+import {useDevToolsShortcut} from './hooks/use-devTools-shortcut.ts';
 import {useAntigravityAccount} from './modules/use-antigravity-account.ts';
-import {DATABASE_EVENTS, useDbMonitoringStore} from './modules/db-monitoring-store';
-import {useAntigravityIsRunning} from './hooks/useAntigravityIsRunning';
+import {useAntigravityIsRunning} from './hooks/use-antigravity-is-running.ts';
 import {Toaster} from 'react-hot-toast';
 import AppToolbar from './components/app/AppToolbar.tsx';
 import {TooltipProvider} from './components/ui/tooltip';
@@ -20,32 +19,15 @@ function App() {
   // 用户管理
   const antigravityAccount = useAntigravityAccount();
 
-  // 监听数据库变化事件
-  const dbMonitoringActions = useDbMonitoringStore();
-
-  useEffect(() => {
-    // 初始化监控（自动启动）
-    dbMonitoringActions.start();
-
-    // 添加事件监听器
-    const unlisten = dbMonitoringActions.addListener(DATABASE_EVENTS.DATA_CHANGED, antigravityAccount.insertOrUpdateCurrentAccount);
-
-    // 自动刷新一次当前账户
-    antigravityAccount.insertOrUpdateCurrentAccount()
-
-    // 组件卸载时移除监听器
-    return () => {
-      unlisten()
-      dbMonitoringActions.stop()
-    };
-  }, []);
-
   // 启动 Antigravity 进程状态自动检查
   const antigravityIsRunning = useAntigravityIsRunning();
 
   useEffect(() => {
-    antigravityIsRunning.startAutoCheck();
-    return () => antigravityIsRunning.stopAutoCheck();
+    antigravityIsRunning.start();
+
+    antigravityAccount.insertOrUpdateCurrentAccount()
+
+    return () => antigravityIsRunning.stop();
   }, []);
 
   // ========== 初始化启动流程 ==========
@@ -72,10 +54,10 @@ function App() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 mx-auto mb-6 text-blue-500"></div>
           <h2 className="text-2xl font-semibold mb-2 text-gray-800 dark:text-gray-100">
-            正在检测 Antigravity...
+            正在检测 Antigravity 数据库...
           </h2>
           <p className="text-gray-500 dark:text-gray-400">
-            请稍候，正在查找 Antigravity 安装路径
+            请稍候，正在查找 Antigravity 数据库路径
           </p>
         </div>
       </div>

@@ -144,17 +144,3 @@ pub enum ProcessPattern {
     ExactName(&'static str),   // 精确匹配进程名
     CmdContains(&'static str), // 命令行包含指定文本
 }
-
-/// 获取 Antigravity 进程匹配模式（用于调试）
-pub fn get_antigravity_process_patterns_for_debug() -> Vec<ProcessPattern> {
-    get_antigravity_process_patterns()
-}
-
-/// 检查进程是否匹配 Antigravity 模式（用于调试）
-pub fn matches_antigravity_process_for_debug(
-    process_name: &str,
-    process_cmd: &str,
-    pattern: &ProcessPattern,
-) -> bool {
-    matches_antigravity_process(process_name, process_cmd, std::slice::from_ref(pattern))
-}

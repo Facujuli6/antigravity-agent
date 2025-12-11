@@ -20,7 +20,9 @@ use crate::platform;
 /// # 返回
 /// - `Ok(message)`: 成功消息
 /// - `Err(message)`: 错误信息
-pub async fn save_antigravity_account_to_file(account_file_path: PathBuf) -> Result<String, String> {
+pub async fn save_antigravity_account_to_file(
+    account_file_path: PathBuf,
+) -> Result<String, String> {
     println!("📂 账户文件: {}", account_file_path.display());
 
     if !account_file_path.exists() {

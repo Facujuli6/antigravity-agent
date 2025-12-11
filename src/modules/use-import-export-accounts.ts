@@ -9,7 +9,7 @@ import {readTextFile} from '@tauri-apps/plugin-fs';
 import {logger} from '@/utils/logger.ts';
 import toast from 'react-hot-toast';
 import {AccountManageCommands} from "@/commands/AccountManageCommands.ts";
-import {BackupData} from "@/commands/types/backup.types.ts";
+import {BackupData} from "@/commands/types/account-manage.types.ts";
 import {LoggingCommands} from "@/commands/LoggingCommands.ts";
 
 interface EncryptedConfigData {
@@ -39,7 +39,7 @@ interface ConfigActions {
   // 对话框控制
   openImportDialog: (filePath: string) => void;
   closeImportDialog: () => void;
-  openExportDialog: (backupData: BackupData[]) => void;
+  openExportDialog: (accountContent: BackupData[]) => void;
   closeExportDialog: () => void;
   // 密码提交处理
   submitImportPassword: (password: string) => Promise<void>;
@@ -285,24 +285,23 @@ export const useImportExportAccount = create<ConfigState & ConfigActions>()(
           toast.loading('正在收集账户数据...', {duration: 1});
 
           // ✅ 获取包含完整内容的备份数据
-          const backupsWithContent = await AccountManageCommands.collectBackupContents();
+          const accountContents = await AccountManageCommands.collectAccountContents();
 
-          if (backupsWithContent.length === 0) {
-            logger.warn('没有找到用户信息', {
+          if (accountContents.length === 0) {
+            logger.warn('没有找到账户信息', {
               module: 'useImportExportAccount'
             });
-            toast.error('没有找到任何用户信息，无法导出配置文件');
+            toast.error('没有找到任何账户信息，无法导出配置文件');
             return;
           }
 
-          logger.info('找到备份数据', {
+          logger.info('找到账户数据', {
             module: 'useImportExportAccount',
-            backupCount: backupsWithContent.length
+            backupCount: accountContents.length
           });
 
-          
           // 显示密码对话框，传递备份数据
-          get().openExportDialog(backupsWithContent);
+          get().openExportDialog(accountContents);
 
         } catch (error) {
           logger.error('检查数据失败', {

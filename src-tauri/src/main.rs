@@ -90,7 +90,7 @@ fn main() {
         .manage(AppState::default())
         .setup(|app| setup::init(app))
         .invoke_handler(tauri::generate_handler![
-            collect_backup_contents,
+            collect_account_contents,
             restore_backup_files,
             delete_backup,
             clear_all_backups,
@@ -101,12 +101,8 @@ fn main() {
             restore_antigravity_account,
             switch_to_antigravity_account,
             clear_all_antigravity_data,
-            // 进程管理命令
-            kill_antigravity,
             is_antigravity_running,
-            list_antigravity_processes,
-            start_antigravity,
-            backup_and_restart_antigravity,
+            sign_in_new_antigravity_account,
             // 平台支持命令
             get_platform_info,
             find_antigravity_installations,

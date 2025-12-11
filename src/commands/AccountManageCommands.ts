@@ -1,32 +1,36 @@
 import {invoke} from '@tauri-apps/api/core';
-import type {BackupData, RestoreResult} from './types/backup.types';
+import type {BackupData, RestoreResult} from './types/account-manage.types.ts';
 
 /**
  * 账户与备份综合命令
  */
 export class AccountManageCommands {
-  static async collectBackupContents(): Promise<BackupData[]> {
-    return invoke('collect_backup_contents');
+  static collectAccountContents(): Promise<BackupData[]> {
+    return invoke('collect_account_contents');
   }
 
-  static async restoreBackupFiles(backups: BackupData[]): Promise<RestoreResult> {
+  static restoreBackupFiles(backups: BackupData[]): Promise<RestoreResult> {
     return invoke('restore_backup_files', { accountFileData: backups });
   }
 
-  static async deleteBackup(name: string): Promise<string> {
+  static deleteBackup(name: string): Promise<string> {
     return invoke('delete_backup', { name });
   }
 
-  static async clearAllBackups(): Promise<string> {
+  static clearAllBackups(): Promise<string> {
     return invoke('clear_all_backups');
   }
 
   // ==== 配置加解密 ====
-  static async encryptConfig(jsonData: string, password: string): Promise<string> {
+  static encryptConfig(jsonData: string, password: string): Promise<string> {
     return invoke('encrypt_config_data', { jsonData: jsonData, password });
   }
 
-  static async decryptConfig(encryptedData: string, password: string): Promise<string> {
+  static decryptConfig(encryptedData: string, password: string): Promise<string> {
     return invoke('decrypt_config_data', { encryptedData: encryptedData, password });
+  }
+
+  static signInNewAntigravityAccount(): Promise<string> {
+    return invoke('sign_in_new_antigravity_account');
   }
 }

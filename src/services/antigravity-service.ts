@@ -17,11 +17,11 @@ export class AntigravityService {
       });
       toast('正在关闭 Antigravity 进程...');
 
-      logger.info('调用后端 backup_and_restart_antigravity 命令', {
+      logger.info('调用后端 sign_in_new_antigravity_account 命令', {
         module: 'AntigravityService',
         action: 'call_backend_command'
       });
-      const result = await invoke('backup_and_restart_antigravity') as string;
+      const result = await invoke('sign_in_new_antigravity_account') as string;
       logger.info('后端命令执行成功', {
         module: 'AntigravityService',
         action: 'backend_command_success',
