@@ -52,6 +52,6 @@ export default defineConfig({
           setupFiles: ['.storybook/vitest.setup.ts']
         }
       }]
-      : []
+      : undefined // 不设置 projects，避免 Vitest 报 “No projects were found”
   }
 });
