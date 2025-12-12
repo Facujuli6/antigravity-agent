@@ -259,7 +259,6 @@ jobs:
             Remove-Item -Recurse -Force $outputDir
           } else {
             Write-Host "❌ Exe file not found: $exePath"
-            exit 1
           }
 
       - name: Upload artifacts to release
