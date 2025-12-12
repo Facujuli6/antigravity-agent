@@ -108,7 +108,7 @@ const AccountsListToolbar: React.FC<BusinessListToolbarProps> = ({
       <a target={"_blank"} href={"https://github.com/MonchiLin/antigravity-agent"} className="text-4xl leading-none font-semibold tracking-tighter text-balance cursor-pointer">
         <span>Antigravity</span>
         {/* padding 修复截断 */}
-        <LineShadowText className={"italic pr-2 pb-1"}>Agent</LineShadowText>
+        <LineShadowText className={"pr-2 pb-1"}>Agent</LineShadowText>
         <UpdateBadge/>
       </a>
 

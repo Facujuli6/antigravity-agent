@@ -145,6 +145,48 @@ const mockAccounts: AntigravityAccount[] = [
     accessToken: 'sk_mock_guest',
     idToken: 'id_mock_guest',
   }),
+  makeAccount({
+    email: 'sarah.connor@skynet.ai',
+    planName: 'Sarah Connor',
+    tier: 'g1-pro-tier',
+    accessToken: 'sk_mock_sarah',
+    idToken: 'id_mock_sarah',
+  }),
+  makeAccount({
+    email: 'bruce.wayne@wayneenterprises.com',
+    planName: 'Bruce Wayne',
+    tier: 'g1-ultra-tier',
+    accessToken: 'sk_mock_bruce',
+    idToken: 'id_mock_bruce',
+  }),
+  makeAccount({
+    email: 'ellen.ripley@weyland.com',
+    planName: 'Ellen Ripley',
+    tier: 'free-tier',
+    accessToken: 'sk_mock_ripley',
+    idToken: 'id_mock_ripley',
+  }),
+  makeAccount({
+    email: 'neo.anderson@matrix.io',
+    planName: 'Neo Anderson',
+    tier: 'g1-pro-tier',
+    accessToken: 'sk_mock_neo',
+    idToken: 'id_mock_neo',
+  }),
+  makeAccount({
+    email: 'trinity@matrix.io',
+    planName: 'Trinity',
+    tier: 'free-tier',
+    accessToken: 'sk_mock_trinity',
+    idToken: 'id_mock_trinity',
+  }),
+  makeAccount({
+    email: 'deckard@blade.runner',
+    planName: 'Rick Deckard',
+    tier: 'g1-ultra-tier',
+    accessToken: 'sk_mock_deckard',
+    idToken: 'id_mock_deckard',
+  }),
 ];
 
 const mockAdditionData: Record<string, AccountAdditionData> = {
@@ -165,6 +207,42 @@ const mockAdditionData: Record<string, AccountAdditionData> = {
     claudeQuote: 0.05,
     userAvatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Guest',
     userId: 'mock_guest',
+  },
+  'sarah.connor@skynet.ai': {
+    geminiQuote: 0.62,
+    claudeQuote: 0.7,
+    userAvatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Sarah',
+    userId: 'mock_sarah',
+  },
+  'bruce.wayne@wayneenterprises.com': {
+    geminiQuote: 0.95,
+    claudeQuote: 0.88,
+    userAvatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Bruce',
+    userId: 'mock_bruce',
+  },
+  'ellen.ripley@weyland.com': {
+    geminiQuote: 0.3,
+    claudeQuote: 0.2,
+    userAvatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Ripley',
+    userId: 'mock_ripley',
+  },
+  'neo.anderson@matrix.io': {
+    geminiQuote: 0.55,
+    claudeQuote: 0.6,
+    userAvatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Neo',
+    userId: 'mock_neo',
+  },
+  'trinity@matrix.io': {
+    geminiQuote: 0.25,
+    claudeQuote: 0.45,
+    userAvatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Trinity',
+    userId: 'mock_trinity',
+  },
+  'deckard@blade.runner': {
+    geminiQuote: 0.1,
+    claudeQuote: 0.12,
+    userAvatar: 'https://api.dicebear.com/9.x/avataaars/svg?seed=Deckard',
+    userId: 'mock_deckard',
   },
 };
 
@@ -200,4 +278,3 @@ export const EmptyState: Story = {
     return <App />;
   },
 };
-
