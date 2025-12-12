@@ -46,7 +46,7 @@ class UpdateService {
                 version: update.version,
                 currentVersion: update.currentVersion,
                 date: update.date,
-                body: update.body || '暂无更新说明',
+                body: update.body || '',
             };
         } catch (error) {
             logger.error('检查更新失败', {

@@ -73,10 +73,25 @@ jobs:
           if [ -z "$PUB_DATE" ]; then
             PUB_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           fi
+
+          # Keep updater notes short (prefer a dedicated block if present)
+          UPDATER_NOTES=$(printf '%s\n' "$BODY" | awk '
+            /<!-- updater-notes-start -->/ { in_block=1; found=1; next }
+            /<!-- updater-notes-end -->/ { in_block=0; next }
+            in_block { print }
+            END { if (!found) exit 0 }
+          ')
+
+          if [ -z "$UPDATER_NOTES" ]; then
+            UPDATER_NOTES="详见：https://github.com/$REPO/releases/tag/$TAG"
+          fi
           
           {
             echo "release_body<<EOF"
             printf '%s\n' "$BODY"
+            echo "EOF"
+            echo "updater_notes<<EOF"
+            printf '%s\n' "$UPDATER_NOTES"
             echo "EOF"
             echo "pub_date=$PUB_DATE"
           } >> "$GITHUB_ENV"
@@ -196,7 +211,7 @@ jobs:
           # Generate final JSON
           jq -n \
             --arg version "$TAG" \
-            --arg notes "$release_body" \
+            --arg notes "$updater_notes" \
             --arg pub_date "$pub_date" \
             --argjson platforms "$PLATFORMS" \
             '{
